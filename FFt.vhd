@@ -1,36 +1,30 @@
---Flip Flop type T
--- Repository: 
--- https://github.com/vasanza/MSI-VHDL
--- Read more:
--- https://vasanza.blogspot.com
+library ieee; -- Importa la librería estándar IEEE
+use ieee.std_logic_1164.all; -- Importa el paquete std_logic_1164
 
---Library
-library ieee;
-use ieee.std_logic_1164.all;
-
---Entity
-entity FFt is
+entity FFt is -- Define la entidad para el Flip-Flop tipo T
 	port(
-		t,Clk,resetn: in std_logic;
-		q: buffer std_logic);
+		t,Clk,resetn: in std_logic; -- Entradas: t (toggle), Clk (reloj), resetn (reset activo bajo)
+		q: buffer std_logic); -- Salida: q
 end FFt;
 
---Architecture
-architecture solve of FFt is
-	-- Signals,Constants,Variables,Components
+architecture solve of FFt is -- Arquitectura principal
+	-- Signals,Constants,Variables,Components -- Aquí se pueden declarar señales, constantes, variables, componentes
 	begin
-	--Process #1
+	-- Proceso principal: Flip-Flop tipo T
 	process(resetn,clk)
-	--Sequential programming
 		begin
-			if resetn='0' then
-				q<='0';
-			elsif clk'event and clk='1' then
-				if t='1' then q<= not q;--<-- Inv
+			if resetn='0' then -- Si resetn está activo, pone q en '0'
+				q<='0'; -- Reinicia el Flip-Flop
+			elsif clk'event and clk='1' then -- Flanco de subida del reloj
+				if t='1' then q<= not q;--<-- Toggle
 				--elsif t='0' then q<=q;--<-- Hold
 				end if;
 			end if;
-	end process;
-	--Process #n...
-		--Process #1
+		end process;
+	-- Aquí podrían ir más procesos si fueran necesarios
 end solve;
+
+-- Arquitectura solve: implementa el Flip-Flop tipo T.
+-- process: secuencial, reinicia q a '0' si resetn es '0'.
+-- Si t='1', q se invierte (toggle).
+-- Si t='0', q mantiene su valor (Hold, comentado).

@@ -1,14 +1,16 @@
 ----------------------------------------------------------------------
 -- File Downloaded from http://www.nandland.com
 ----------------------------------------------------------------------
-library ieee;
-use ieee.std_logic_1164.ALL;
-use ieee.numeric_std.all;
+library ieee; -- Importa la librería estándar IEEE
+use ieee.std_logic_1164.ALL; -- Importa el paquete std_logic_1164
+use ieee.numeric_std.all; -- Importa el paquete numeric_std para operaciones aritméticas con enteros.
+
+-- Importa la librería estándar IEEE y los paquetes necesarios para señales lógicas y operaciones aritméticas con enteros.
  
-entity uart_tb is
+entity uart_tb is -- Entidad uart_tb: banco de pruebas para UART.
 end uart_tb;
- 
-architecture behave of uart_tb is
+
+architecture behave of uart_tb is -- Comienza la arquitectura de banco de pruebas UART.
  
   component uart_tx is
     generic (
@@ -23,6 +25,8 @@ architecture behave of uart_tb is
       o_tx_done   : out std_logic
       );
   end component uart_tx;
+
+  -- Componente uart_tx: transmisor UART.
  
   component uart_rx is
     generic (
@@ -35,6 +39,8 @@ architecture behave of uart_tb is
       o_rx_byte   : out std_logic_vector(7 downto 0)
       );
   end component uart_rx;
+
+    -- Componente uart_rx: receptor UART.
  
    
   -- Test Bench uses a 10 MHz Clock
@@ -52,6 +58,8 @@ architecture behave of uart_tb is
   signal w_RX_DV     : std_logic;
   signal w_RX_BYTE   : std_logic_vector(7 downto 0);
   signal r_RX_SERIAL : std_logic := '1';
+
+    -- Constantes y señales para la simulación y prueba de UART.
  
    
   -- Low-level byte-write
@@ -74,6 +82,8 @@ architecture behave of uart_tb is
     o_serial <= '1';
     wait for c_BIT_PERIOD;
   end UART_WRITE_BYTE;
+
+    -- Procedimiento para enviar un byte por UART, incluye bit de inicio, datos y bit de parada.
  
    
 begin
@@ -91,6 +101,8 @@ begin
       o_tx_serial => w_TX_SERIAL,
       o_tx_done   => w_TX_DONE
       );
+
+  -- Instancia el transmisor UART.
  
   -- Instantiate UART Receiver
   UART_RX_INST : uart_rx
@@ -103,8 +115,12 @@ begin
       o_rx_dv     => w_RX_DV,
       o_rx_byte   => w_RX_BYTE
       );
+
+    -- Instancia el receptor UART.
  
   r_CLOCK <= not r_CLOCK after 50 ns;
+
+    -- Genera el reloj de simulación de 10 MHz.
    
   process is
   begin
@@ -134,5 +150,9 @@ begin
     assert false report "Tests Complete" severity failure;
      
   end process;
+
+    -- Proceso principal de prueba: envía y recibe bytes por UART, verifica la recepción correcta y reporta el resultado.
    
 end behave;
+
+-- Fin de la arquitectura de banco de pruebas UART.

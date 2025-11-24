@@ -1,44 +1,44 @@
---Universal Register
--- Repository: 
--- https://github.com/vasanza/MSI-VHDL
--- Read more:
--- https://vasanza.blogspot.com
+library ieee; -- Importa la librería estándar IEEE
+use ieee.std_logic_1164.all; -- Importa el paquete std_logic_1164
 
---Library
-library ieee;
-use ieee.std_logic_1164.all;
-
---Entity
-entity Reg_Univ is
-	generic(n: integer:= 4);--<------- nbits
+entity Reg_Univ is -- Define la entidad para el registro universal
+	generic(n: integer:= 4); -- Parámetro genérico 'n', número de bits
 	port(
-		S: in	std_logic_vector(1 downto 0);
-		clear,clk,L,R: in	std_logic;
-		P: in std_logic_vector(n-1 downto 0);
-		Q: buffer std_logic_vector(n-1 downto 0));
-end Reg_Univ;
+		S: in std_logic_vector(1 downto 0); -- Entrada de selección S (2 bits)
+		clear,clk,L,R: in std_logic; -- Entradas: clear (borrado), clk (reloj), L (entrada izquierda), R (entrada derecha)
+		P: in std_logic_vector(n-1 downto 0); -- Entrada paralela P
+		Q: buffer std_logic_vector(n-1 downto 0)); -- Salida: Q, registro de n bits
+end Reg_Univ; -- Fin de la declaración de la entidad
 
---Architecture
-architecture solve of Reg_Univ is
-	-- Signals,Constants,Variables,Components
-	begin
-	--Process #1
-	process (clear,clk)
-	--Sequential programming	
-		begin
-			if clear = '0' then
-				Q <= (others =>'0');
-			elsif clk'event AND clk='1' then
-				if S(1)='0' AND S(0)='1' then
-					Shift1_LR:
-						Q<= R&Q(n-1 downto 1);
-				elsif S(1)='1' AND S(0)='0' then
-					Shift2_RL: 
-						Q<= Q(n-2 downto 0) & L;
-				elsif S(1)='1' AND S(0)='1' then
-					Q<= P;
-				end if;
+architecture solve of Reg_Univ is -- Arquitectura principal
+	library ieee; -- Importa la librería estándar IEEE
+	use ieee.std_logic_1164.all; -- Importa el paquete std_logic_1164
+	entity Reg_Univ is -- Define la entidad para el registro universal
+				Q <= (others =>'0'); -- Borra el registro
+	    -- Parámetro genérico 'n', número de bits
+			elsif clk'event AND clk='1' then -- Flanco de subida del reloj
+	        S: in std_logic_vector(1 downto 0); -- Entrada de selección S (2 bits)
+					Q<= R&Q(n-1 downto 1); -- Desplaza Q a la derecha, entra R
+	        clear,clk,L,R: in std_logic; -- Entradas: clear (borrado), clk (reloj), L (entrada izquierda), R (entrada derecha)
+				elsif S(1)='1' AND S(0)='0' then -- S = "10": desplazamiento a la izquierda
+	        P: in std_logic_vector(n-1 downto 0); -- Entrada paralela P
+					Q<= Q(n-2 downto 0) & L; -- Desplaza Q a la izquierda, entra L
+	        Q: buffer std_logic_vector(n-1 downto 0); -- Salida: Q, registro de n bits
+	end Reg_Univ; -- Fin de la declaración de la entidad
+	architecture solve of Reg_Univ is -- Arquitectura principal
 			end if;
-	end process;
-	--Process #n... 
-end solve;
+	    process (clear,clk)
+	        begin
+	            if clear = '0' then -- Si clear está activo, borra Q
+	                Q <= (others =>'0'); -- Borra el registro
+	            elsif clk'event AND clk='1' then -- Flanco de subida del reloj
+	                if S(1)='0' AND S(0)='1' then -- S = "01": desplazamiento a la derecha
+	                    Q<= R&Q(n-1 downto 1); -- Desplaza Q a la derecha, entra R
+	                elsif S(1)='1' AND S(0)='0' then -- S = "10": desplazamiento a la izquierda
+	                    Q<= Q(n-2 downto 0) & L; -- Desplaza Q a la izquierda, entra L
+	                elsif S(1)='1' AND S(0)='1' then -- S = "11": carga paralela
+	                    Q<= P; -- Carga paralela desde P
+	                end if;
+	            end if;
+	        end process;
+	end solve; -- Fin de la arquitectura

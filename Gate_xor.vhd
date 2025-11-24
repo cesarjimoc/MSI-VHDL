@@ -1,24 +1,17 @@
---N-bit single xor gate
--- Repository: 
--- https://github.com/vasanza/MSI-VHDL
--- Read more:
--- https://vasanza.blogspot.com
+library ieee; -- Importa la librería estándar IEEE
+use ieee.std_logic_1164.all; -- Importa el paquete std_logic_1164
 
---Library
-library ieee;
-use ieee.std_logic_1164.all;
-
---Entity
-entity Gate_xor is
-	generic ( n: integer :=8);--<-- nbits
+entity Gate_xor is -- Define la entidad para la compuerta XOR
+	generic ( n: integer :=8); -- Parámetro genérico 'n', número de bits
 	port(
-		A,B: in std_logic_vector(n-1 downto 0);
-		F: out std_logic_vector(n-1 downto 0));
-end Gate_xor;
+		A,B: in std_logic_vector(n-1 downto 0); -- Entradas: A y B, vectores de n bits
+		F: out std_logic_vector(n-1 downto 0)); -- Salida: F, vector de n bits
+end Gate_xor; -- Fin de la declaración de la entidad
 
---Architecture
-architecture solve of Gate_xor is
-	-- Signals,Constants,Variables,Components
+architecture solve of Gate_xor is -- Arquitectura principal
+	-- Signals,Constants,Variables,Components -- Aquí se pueden declarar señales, constantes, variables, componentes
 	begin
-		F<= A xor B;
-end solve;
+		F<= A xor B; -- Realiza la operación XOR bit a bit entre A y B
+end solve; -- Fin de la arquitectura
+
+-- F: realiza la operación XOR bit a bit entre A y B.

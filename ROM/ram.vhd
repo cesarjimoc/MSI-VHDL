@@ -18,45 +18,27 @@
 -- ************************************************************
 
 
---Copyright (C) 2017  Intel Corporation. All rights reserved.
---Your use of Intel Corporation's design tools, logic functions 
---and other software and tools, and its AMPP partner logic 
---functions, and any output files from any of the foregoing 
---(including device programming or simulation files), and any 
---associated documentation or information are expressly subject 
---to the terms and conditions of the Intel Program License 
---Subscription Agreement, the Intel Quartus Prime License Agreement,
---the Intel FPGA IP License Agreement, or other applicable license
---agreement, including, without limitation, that your use is for
---the sole purpose of programming logic devices manufactured by
---Intel and sold by Intel or its authorized distributors.  Please
---refer to the applicable agreement for further details.
+library ieee; -- Importa la librería estándar IEEE para señales lógicas.
+USE ieee.std_logic_1164.all; -- Importa el paquete std_logic_1164
 
+library altera_mf; -- Importa componentes de la librería de megafunciones de Altera (Intel FPGA)
+USE altera_mf.altera_mf_components.all; -- Importa componentes de la librería de megafunciones de Altera (Intel FPGA)
 
-LIBRARY ieee;
-USE ieee.std_logic_1164.all;
-
-LIBRARY altera_mf;
-USE altera_mf.altera_mf_components.all;
-
-ENTITY ram IS
+ENTITY ram IS -- Entidad RAM: memoria de un puerto.
 	PORT
 	(
-		address		: IN STD_LOGIC_VECTOR (9 DOWNTO 0);
-		clock		: IN STD_LOGIC  := '1';
-		data		: IN STD_LOGIC_VECTOR (31 DOWNTO 0);
-		wren		: IN STD_LOGIC ;
-		q		: OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
+		address		: IN STD_LOGIC_VECTOR (9 DOWNTO 0); -- Entrada de dirección
+		clock		: IN STD_LOGIC  := '1'; -- Entrada de reloj
+		data		: IN STD_LOGIC_VECTOR (31 DOWNTO 0); -- Entrada de datos
+		wren		: IN STD_LOGIC ; -- Entrada de habilitación de escritura
+		q		: OUT STD_LOGIC_VECTOR (31 DOWNTO 0) -- Salida de datos
 	);
-END ram;
+END ram; -- Fin de la declaración de la entidad
 
-
-ARCHITECTURE SYN OF ram IS
-
-	SIGNAL sub_wire0	: STD_LOGIC_VECTOR (31 DOWNTO 0);
-
+ARCHITECTURE SYN OF ram IS -- Arquitectura SYN: implementa la lógica de la RAM usando el componente altsyncram.
+	SIGNAL sub_wire0	: STD_LOGIC_VECTOR (31 DOWNTO 0); -- Señal interna para conectar la salida del componente RAM
 BEGIN
-	q    <= sub_wire0(31 DOWNTO 0);
+	q    <= sub_wire0(31 DOWNTO 0); -- Asigna la salida del componente RAM a la salida de la entidad
 
 	altsyncram_component : altsyncram
 	GENERIC MAP (
@@ -83,10 +65,7 @@ BEGIN
 		wren_a => wren,
 		q_a => sub_wire0
 	);
-
-
-
-END SYN;
+END SYN; -- Fin de la arquitectura SYN
 
 -- ============================================================
 -- CNX file retrieval info

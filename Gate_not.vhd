@@ -1,24 +1,24 @@
---N-bit single port inverter
--- Repository: 
--- https://github.com/vasanza/MSI-VHDL
--- Read more:
--- https://vasanza.blogspot.com
+--N-bit single port inverter -- Inversor de n bits, puerto único
+-- Repository:  -- Repositorio de origen
+-- https://github.com/vasanza/MSI-VHDL -- Enlace al repositorio
+-- Read more: -- Más información
+-- https://vasanza.blogspot.com -- Enlace al blog
 
---Library
-library ieee;
-use ieee.std_logic_1164.all;
+--Library -- Librería
+library ieee; -- Importa la librería estándar IEEE
+use ieee.std_logic_1164.all; -- Importa el paquete std_logic_1164
 
---Entity
-entity Gate_not is
-	generic ( n: integer :=1);--<-- nbits
+--Entity -- Entidad
+entity Gate_not is -- Define la entidad para el inversor
+	generic ( n: integer :=1); -- Parámetro genérico 'n', número de bits
 	port(
-		X: in std_logic_vector(n-1 downto 0);
-		S: out std_logic_vector(n-1 downto 0));
-end Gate_not;
+		X: in std_logic_vector(n-1 downto 0); -- Entrada: X, vector de n bits
+		S: out std_logic_vector(n-1 downto 0)); -- Salida: S, vector de n bits
+end Gate_not; -- Fin de la declaración de la entidad
 
---Architecture
-architecture solve of Gate_not is
-	-- Signals,Constants,Variables,Components
+--Architecture -- Arquitectura
+architecture solve of Gate_not is -- Arquitectura principal
+	-- Signals,Constants,Variables,Components -- Aquí se pueden declarar señales, constantes, variables, componentes
 	begin
-		s<=not(X);
-end solve;
+		s<=not(X); -- Realiza la operación NOT bit a bit sobre X, resultado en S
+end solve; -- Fin de la arquitectura

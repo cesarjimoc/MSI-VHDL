@@ -6,41 +6,37 @@
 --by: Bryan Steven Espinosa
 
 --Library
-library ieee;
-use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
+library ieee; -- Importa la librería estándar IEEE
+use ieee.std_logic_1164.all; -- Importa el paquete std_logic_1164
+use ieee.numeric_std.all; -- Permite operaciones aritméticas con vectores de bits
 
 --Entity
-entity ProductV2 is
-	generic(N : positive :=3);
-	port( a_i :  in std_logic_vector(N-1 downto 0);
-			b_i :  in std_logic_vector(N-1 downto 0);
-			clk,start : in std_logic;
-			fin : out std_logic;
-			p_o : out std_logic_vector(2*N-1 downto 0)
-			);
-end entity ProductV2;
+entity ProductV2 is -- Define la entidad para el multiplicador
+    generic(N : positive :=3); -- Parámetro genérico N, número de bits
+    port( a_i :  in std_logic_vector(N-1 downto 0); -- Entrada a_i
+          b_i :  in std_logic_vector(N-1 downto 0); -- Entrada b_i
+          clk,start : in std_logic; -- Entradas de control
+          fin : out std_logic; -- Salida de finalización
+          p_o : out std_logic_vector(2*N-1 downto 0) -- Salida del producto
+    );
+end entity ProductV2; -- Fin de la declaración de la entidad
 
 --Architecture
-architecture Arq of ProductV2 is 
-	-- Signals,Constants,Variables,Components
-	begin
-	--Process #1
-	process(start,clk)
-	--Sequential programming
-	begin
-	
-		if start = '0' then 
-			p_o <= "ZZZZZZ";
-			fin <= '0';
-			
-		elsif (clk'event and clk='1' and start='1') then
-			p_o <= std_logic_vector(signed(a_i) * signed(b_i));
-			fin <= '1';
-			
-		end if;
-	end process;
-	--Process #n...
-end architecture Arq;
+architecture Arq of ProductV2 is -- Arquitectura principal
+    -- Aquí se pueden declarar señales, constantes, variables, componentes
+    begin
+    process(start,clk)
+        -- Proceso principal
+        begin
+            if start = '0' then -- Si start es '0', pone la salida en alta impedancia
+                p_o <= "ZZZZZZ";
+                fin <= '0';
+            elsif (clk'event and clk='1' and start='1') then -- Flanco de subida del reloj y start activo
+                p_o <= std_logic_vector(signed(a_i) * signed(b_i)); -- Multiplica a_i y b_i como signed
+                fin <= '1'; -- Indica que terminó
+            end if;
+        end process;
+        -- Fin del proceso principal
+end architecture Arq; -- Fin de la arquitectura
 
 

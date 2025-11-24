@@ -5,6 +5,10 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use IEEE.STD_LOGIC_unsigned.all;
+
+-- Importa la librería estándar IEEE y los paquetes necesarios para señales y operaciones aritméticas con vectores.
+
+-- Importa la librería estándar IEEE y los paquetes necesarios para señales y operaciones aritméticas con vectores.
 -----------------------------------------------------
 entity PWM is
     port(
@@ -15,6 +19,12 @@ entity PWM is
         pwm : out std_logic
     );
 end PWM;
+
+-- Entidad PWM: genera una señal PWM.
+-- Entradas: clr (reset), clk (reloj), duty (ciclo de trabajo), period (periodo).
+-- Salida: pwm.
+
+-- Entidad PWM: genera una señal PWM. Entradas: clr (reset), clk (reloj), duty (ciclo de trabajo), period (periodo). Salida: pwm.
 -----------------------------------------------------
 architecture Behavioral of PWM is
 signal count : std_logic_vector(7 downto 0);
@@ -40,3 +50,13 @@ begin
         end if;
     end process pwmout;
 end Behavioral;
+
+-- Arquitectura Behavioral: implementa la lógica PWM.
+-- signal count: contador de 8 bits para el ciclo PWM.
+-- cnt: proceso que incrementa el contador en cada flanco de reloj, lo reinicia con clr o cuando llega al periodo.
+-- pwmout: proceso que compara el contador con el ciclo de trabajo (duty) y genera la salida PWM.
+
+-- Arquitectura Behavioral: implementa la lógica PWM.
+-- signal count: contador de 8 bits para el ciclo PWM.
+-- cnt: proceso que incrementa el contador en cada flanco de reloj, lo reinicia con clr o cuando llega al periodo.
+-- pwmout: proceso que compara el contador con el ciclo de trabajo (duty) y genera la salida PWM.
